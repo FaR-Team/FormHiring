@@ -252,6 +252,18 @@
                         <input type="checkbox" id="Programador" name="positions[]" value="Programador">
                         <label for="Programador">Programador</label>
                     </div>
+                    <div class="radio-option">
+                        <input type="checkbox" id="Web Developer" name="positions[]" value="Programador">
+                        <label for="Web Developer">Web Developer</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="checkbox" id="Game Producer" name="positions[]" value="Programador">
+                        <label for="Game Producer">Game Producer</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="checkbox" id="Game Designer" name="positions[]" value="Programador">
+                        <label for="Game Designer">Game Designer</label>
+                    </div>
                 </div>
             </div>
             <div class="form-group">
@@ -356,7 +368,7 @@
           }
 
           function submitToDiscord(formData) {
-              const webhookUrl = "https://discord.com/api/webhooks/1296287244545556490/qDRvxpkpdqQZhxLx_ZNbjbYSXgl5bFTtZFB4P241-oFKXq_23PxnnNPoH1BIWzII5nmW";
+              const webhookUrl = "https://discord.com/api/webhooks/1298670786856620083/kTx0pHFbAkb1DdAGMA4NvgY-oT3WeADZKx5Uz37TXoH1Iz8e9As074bfRSvFTBEZvojN";
 
               const selectedPositions = Array.from(document.querySelectorAll('input[name="positions[]"]:checked'))
                   .map(checkbox => checkbox.value)
