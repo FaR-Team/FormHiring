@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Volunteer Form</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="Images/FaRLogo.jpg">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .form-container {
+            width: 100%;
+            max-width: 500px;
+            background-color: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .form-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .form-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .form-header img {
+            max-width: 120px;
+            margin-bottom: 15px;
+        }
+
+        .form-header h1 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .form-header p {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        form {
+            padding: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #e1e1e1;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        textarea:focus {
+            border-color: #667eea;
+            outline: none;
+        }
+
+        textarea {
+            height: 120px;
+            resize: vertical;
+        }
+
+        .button-container {
+            text-align: center;
+        }
+
+        button[type="submit"] {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+        }
+
+        button[type="submit"]:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 14px rgba(50, 50, 93, 0.1), 0 3px 6px rgba(0, 0, 0, 0.08);
+        }
+
+        button[type="submit"]:disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        @media (max-width: 600px) {
+            .form-container {
+                max-width: 100%;
+            }
+
+            .form-header {
+                padding: 20px;
+            }
+
+            form {
+                padding: 20px;
+            }
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 400px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        #closeAlert {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+        }
+
+        #closeAlert:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .radio-option input[type="radio"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .radio-option label {
+            margin: 0;
+            cursor: pointer;
+        }
+        .subtitle {
+            display: block;
+            color: #666;
+            font-size: 12px;
+            margin-top: 2px;
+            margin-bottom: 8px;
+        }
+            </style>
+</head>
+<body>
+    <div class="form-container">
+        <div class="form-header">
+            <img src="Images/longlogo.png" alt="FaR Team Logo">
+            <p>¡Buscamos Voluntarios!</p>
+        </div>
+        <form id="myForm">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="name">Nombre</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label>¿Para qué posición querés aplicar?</label>
+                <span class="subtitle">(Podés elegir más de una)</span>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="checkbox" id="Productor Musical" name="positions[]" value="Productor Musical">
+                        <label for="Productor Musical">Productor Musical</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="checkbox" id="Modelador 3D" name="positions[]" value="Modelador 3D">
+                        <label for="Modelador 3D">Modelador 3D</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="checkbox" id="Animador 3D" name="positions[]" value="Animador 3D">
+                        <label for="Animador 3D">Animador 3D</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="checkbox" id="Artista 2D" name="positions[]" value="Artista 2D">
+                        <label for="Artista 2D">Artista 2D</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="checkbox" id="Programador" name="positions[]" value="Programador">
+                        <label for="Programador">Programador</label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="portfolio">Dejanos tu portfolio</label>
+                <span class="subtitle">(O tu muestra de trabajo de preferencia)</span>
+                <input type="text" id="portfolio" name="porfolio" required>
+            </div>
+            <div class="form-group">
+                <label>¿Cómo preferís que te contactemos?</label>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="discord" name="contact_method" value="discord">
+                        <label for="discord">Discord</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="Twitter" name="contact_method" value="whatsapp">
+                        <label for="Twitter">twitter</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="mail" name="contact_method" value="telegram">
+                        <label for="mail">Mail</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="otro" name="contact_method" value="telegram">
+                        <label for="otro">Otro (Especificar)</label>
+                    </div>
+                </div>
+                <div id="contact_details_container" style="display: none; margin-top: 10px;">
+                    <input type="text" id="contact_details" name="contact_details" placeholder="Ingresa tu usuario">
+                </div>
+            </div>            
+            <div class="form-group">
+                <div class="radio-option">
+                    <input type="checkbox" id="voluntaryAcknowledgment" name="voluntaryAcknowledgment" required>
+                    <label for="voluntaryAcknowledgment">Aceptando esto reconocés que entendés que se trata de un trabajo voluntario, no remunerado, por experiencia.</label>
+                </div>
+            </div>
+            <div class="button-container">
+                <button type="submit" id="submitButton" disabled>Enviar</button>
+            </div>
+        </form>
+    </div>
+      <script>
+          const form = document.getElementById('myForm');
+          const submitButton = document.getElementById('submitButton');
+          const requiredInputs = form.querySelectorAll('input[required]');
+
+          function checkFormValidity() {
+              let isValid = true;
+              
+              // Check all required inputs
+              requiredInputs.forEach(input => {
+                  if (!input.value.trim()) {
+                      isValid = false;
+                  }
+              });
+              
+              // Check if at least one position is selected
+              const positionCheckboxes = document.querySelectorAll('input[name="positions[]"]');
+              const hasSelectedPosition = Array.from(positionCheckboxes).some(checkbox => checkbox.checked);
+              if (!hasSelectedPosition) {
+                  isValid = false;
+              }
+              
+              // Check if contact method is selected and details are provided
+              const contactMethod = document.querySelector('input[name="contact_method"]:checked');
+              const contactDetails = document.getElementById('contact_details');
+              if (!contactMethod || (contactDetailsContainer.style.display === 'block' && !contactDetails.value.trim())) {
+                  isValid = false;
+              }
+              
+              // Check if acknowledgment is checked
+              const acknowledgment = document.getElementById('voluntaryAcknowledgment');
+              if (!acknowledgment.checked) {
+                  isValid = false;
+              }
+              
+              submitButton.disabled = !isValid;
+          }
+
+          requiredInputs.forEach(input => {
+              input.addEventListener('input', checkFormValidity);
+          });
+
+          function showCustomAlert(message) {
+              const modal = document.getElementById('customAlert');
+              const alertMessage = document.getElementById('alertMessage');
+              const closeButton = document.getElementById('closeAlert');
+
+              alertMessage.textContent = message;
+              modal.style.display = 'block';
+
+              closeButton.onclick = function() {
+                  modal.style.display = 'none';
+              }
+
+              window.onclick = function(event) {
+                  if (event.target == modal) {
+                      modal.style.display = 'none';
+                  }
+              }
+          }
+
+          function submitToDiscord(formData) {
+              const webhookUrl = "https://discord.com/api/webhooks/1296287244545556490/qDRvxpkpdqQZhxLx_ZNbjbYSXgl5bFTtZFB4P241-oFKXq_23PxnnNPoH1BIWzII5nmW";
+
+              const selectedPositions = Array.from(document.querySelectorAll('input[name="positions[]"]:checked'))
+                  .map(checkbox => checkbox.value)
+                  .join(", ");
+
+              const contactMethod = document.querySelector('input[name="contact_method"]:checked');
+              const contactDetails = document.getElementById('contact_details').value;
+
+              const fields = [
+                  { name: "Correo", value: formData.get('email'), inline: false },
+                  { name: "Nombre", value: formData.get('name'), inline: false },
+                  { name: "Posiciones", value: selectedPositions || "No seleccionó ninguna posición.", inline: false },
+                  { name: "Portfolio", value: formData.get('porfolio'), inline: false },
+                  { name: "Método de Contacto", value: contactMethod ? contactMethod.value : "No especificado", inline: true },
+                  { name: "Detalles de Contacto", value: contactDetails || "No proporcionados", inline: true },
+                  { name: "Aceptó Trabajo Voluntario", value: "✅", inline: false }
+              ];
+
+              const payload = {
+                  content: `Nueva respuesta al formulario de ` + formData.get('name') + ":",
+                  embeds: [
+                      {
+                          title: "Formulario de Voluntarios",
+                          color: 8988319,
+                          fields: fields,
+                          timestamp: new Date().toISOString(),
+                          footer: {
+                              text: "F.A.R. Team",
+                          }
+                      }
+                  ]
+              };
+
+              fetch(webhookUrl, {
+                  method: "POST",
+                  headers: {
+                      "Content-Type": "application/json"
+                  },
+                  body: JSON.stringify(payload)
+              })
+              .then(response => {
+                  if (!response.ok) {
+                      throw new Error('Network response was not ok');
+                  }
+                  console.log("Form submitted successfully");
+                  showCustomAlert("Formulario enviado con éxito!");
+                  form.reset();
+                  contactDetailsContainer.style.display = 'none';
+                  submitButton.disabled = true;
+              })
+              .catch(error => {
+                  console.error('Error:', error);
+                  showCustomAlert("Hubo un error al enviar el formulario. Por favor, inténtalo de nuevo.");
+              });
+          }          form.addEventListener('submit', (e) => {
+              e.preventDefault();
+              const formData = new FormData(form);
+              submitToDiscord(formData);
+          });
+        const contactMethodRadios = document.querySelectorAll('input[name="contact_method"]');
+        const contactDetailsContainer = document.getElementById('contact_details_container');
+        const contactDetailsInput = document.getElementById('contact_details');
+        contactMethodRadios.forEach(radio => {
+            radio.addEventListener('change', () => {
+                contactDetailsContainer.style.display = 'block';
+                const methodName = radio.id;
+                let placeholder = '';
+            
+                switch(methodName) {
+                    case 'discord':
+                        placeholder = 'Ingresa tu usuario de Discord';
+                        contactDetailsInput.value = '';
+                        break;
+                    case 'Twitter':
+                        placeholder = 'Ingresa tu usuario de Twitter';
+                        contactDetailsInput.value = '';
+                        break;
+                    case 'mail':
+                        placeholder = 'Ingresa tu correo electrónico';
+                        contactDetailsInput.value = document.getElementById('email').value;
+                        break;
+                    case 'otro':
+                        placeholder = 'Especifica tu método de contacto preferido';
+                        contactDetailsInput.value = '';
+                        break;
+                }
+            
+                contactDetailsInput.placeholder = placeholder;
+                contactDetailsInput.required = true;
+                checkFormValidity();
+            });
+        });
+
+        // Add event listeners for position checkboxes
+        document.querySelectorAll('input[name="positions[]"]').forEach(checkbox => {
+            checkbox.addEventListener('change', checkFormValidity);
+        });
+
+        // Add event listener for acknowledgment checkbox
+        document.getElementById('voluntaryAcknowledgment').addEventListener('change', checkFormValidity);
+
+        // Add event listener for contact details
+        document.getElementById('contact_details').addEventListener('input', checkFormValidity);
+      </script>
+    <div id="customAlert" class="modal">
+        <div class="modal-content">
+            <p id="alertMessage"></p>
+            <button id="closeAlert">Cerrar</button>
+        </div>
+    </div>
+</body>
+</html>
