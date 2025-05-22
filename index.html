@@ -181,6 +181,25 @@
             transform: translateY(-2px);
             box-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
+        #acceptInitialWarning {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+        }
+
+        #acceptInitialWarning:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        #initialWarningModal {
+            display: block;
+        }
         .radio-group {
             display: flex;
             flex-direction: column;
@@ -306,36 +325,49 @@
             </div>
         </form>
     </div>
+    <div id="initialWarningModal" class="modal">
+        <div class="modal-content">
+            <p>Aceptando esto reconocés que entendés que se trata de un trabajo voluntario, no remunerado, por experiencia.</p>
+            <button id="acceptInitialWarning">Aceptar</button>
+        </div>
+    </div>
+    <div id="customAlert" class="modal">
+        <div class="modal-content">
+            <p id="alertMessage"></p>
+            <button id="closeAlert">Cerrar</button>
+        </div>
+    </div>
+
       <script>
           const form = document.getElementById('myForm');
           const submitButton = document.getElementById('submitButton');
           const requiredInputs = form.querySelectorAll('input[required]');
+          const initialWarningModal = document.getElementById('initialWarningModal');
+          const acceptInitialWarningButton = document.getElementById('acceptInitialWarning');
+          const voluntaryAcknowledgmentCheckbox = document.getElementById('voluntaryAcknowledgment');
+          const contactDetailsContainer = document.getElementById('contact_details_container');
 
           function checkFormValidity() {
               let isValid = true;
               
-              // Check all required inputs
               requiredInputs.forEach(input => {
                   if (!input.value.trim()) {
                       isValid = false;
                   }
               });
               
-              // Check if at least one position is selected
               const positionCheckboxes = document.querySelectorAll('input[name="positions[]"]');
               const hasSelectedPosition = Array.from(positionCheckboxes).some(checkbox => checkbox.checked);
               if (!hasSelectedPosition) {
                   isValid = false;
               }
               
-              // Check if contact method is selected and details are provided
               const contactMethod = document.querySelector('input[name="contact_method"]:checked');
-              const contactDetails = document.getElementById('contact_details');
+              const contactDetails = document.getElementById('contact_details'); // This is contactDetailsInput in other parts of the script
               if (!contactMethod || (contactDetailsContainer.style.display === 'block' && !contactDetails.value.trim())) {
                   isValid = false;
               }
               
-              // Check if acknowledgment is checked
               const acknowledgment = document.getElementById('voluntaryAcknowledgment');
               if (!acknowledgment.checked) {
                   isValid = false;
@@ -346,6 +378,13 @@
 
           requiredInputs.forEach(input => {
               input.addEventListener('input', checkFormValidity);
+          });
+
+          acceptInitialWarningButton.addEventListener('click', () => {
+              initialWarningModal.style.display = 'none';
+              voluntaryAcknowledgmentCheckbox.checked = true;
+              const event = new Event('change', { bubbles: true });
+              voluntaryAcknowledgmentCheckbox.dispatchEvent(event);
           });
 
           function showCustomAlert(message) {
@@ -429,7 +468,6 @@
               submitToDiscord(formData);
           });
         const contactMethodRadios = document.querySelectorAll('input[name="contact_method"]');
-        const contactDetailsContainer = document.getElementById('contact_details_container');
         const contactDetailsInput = document.getElementById('contact_details');
         contactMethodRadios.forEach(radio => {
             radio.addEventListener('change', () => {
@@ -462,22 +500,13 @@
             });
         });
 
-        // Add event listeners for position checkboxes
         document.querySelectorAll('input[name="positions[]"]').forEach(checkbox => {
             checkbox.addEventListener('change', checkFormValidity);
         });
 
-        // Add event listener for acknowledgment checkbox
         document.getElementById('voluntaryAcknowledgment').addEventListener('change', checkFormValidity);
 
-        // Add event listener for contact details
         document.getElementById('contact_details').addEventListener('input', checkFormValidity);
       </script>
-    <div id="customAlert" class="modal">
-        <div class="modal-content">
-            <p id="alertMessage"></p>
-            <button id="closeAlert">Cerrar</button>
-        </div>
-    </div>
 </body>
 </html>
